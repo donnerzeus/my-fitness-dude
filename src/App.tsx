@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, LayoutDashboard, Utensils, Zap } from 'lucide-react';
+import { Shield, LayoutDashboard, Utensils, Zap, Camera } from 'lucide-react';
 import './App.css';
 
 // Components (We will create these next)
@@ -11,8 +11,9 @@ import ProgressSummary from './components/ProgressSummary';
 import Measurements from './components/Measurements';
 import MealPrep from './components/MealPrep';
 import HistoricalData from './components/HistoricalData';
+import VisualEvolution from './components/VisualEvolution';
 
-type Tab = 'dashboard' | 'fuel' | 'arena';
+type Tab = 'dashboard' | 'fuel' | 'arena' | 'gallery';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
@@ -80,6 +81,18 @@ const App: React.FC = () => {
               <ArenaTimer />
             </motion.div>
           )}
+
+          {activeTab === 'gallery' && (
+            <motion.div
+              key="gallery"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="tab-content"
+            >
+              <VisualEvolution />
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
 
@@ -104,6 +117,13 @@ const App: React.FC = () => {
         >
           <Zap />
           <span>Arena</span>
+        </button>
+        <button
+          className={activeTab === 'gallery' ? 'active' : ''}
+          onClick={() => setActiveTab('gallery')}
+        >
+          <Camera />
+          <span>Gallery</span>
         </button>
       </nav>
     </div>

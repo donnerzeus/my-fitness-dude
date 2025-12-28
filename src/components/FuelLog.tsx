@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Droplets, Info, Flame } from 'lucide-react';
 import type { DailyStats } from '../services/StorageService';
-import { StorageService } from '../services/StorageService';
 
-const FuelLog: React.FC = () => {
-  const [stats, setStats] = useState<DailyStats>(StorageService.getStats());
+interface FuelLogProps {
+  stats: DailyStats;
+  updateStats: (updates: Partial<DailyStats>) => void;
+}
 
-  const updateStats = (updates: Partial<DailyStats>) => {
-    const newStats = { ...stats, ...updates };
-    setStats(newStats);
-    StorageService.saveStats(newStats);
-  };
-
+const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
   const { lunchProtein, noCarbs, waterCount, sodaCount, supplements } = stats;
 
   const toggleSupplement = (name: string) => {
-    const newSupps = supplements.includes(name)
+    const newSupps = (supplements || []).includes(name)
       ? supplements.filter(s => s !== name)
-      : [...supplements, name];
+      : [...(supplements || []), name];
     updateStats({ supplements: newSupps });
   };
 
@@ -32,66 +28,81 @@ const FuelLog: React.FC = () => {
   return (
     <div className="fuel-log">
       <div className="section-title">
-        <Droplets className="title-icon" />
-        <h2>Hydration & Fuel</h2>
+        <Flame className="crimson" />
+        <h2>Fuel Status</h2>
       </div>
 
-      <div className="glass-card tracker-card">
-        <h3>Lunch Control (Sabancı Style)</h3>
-        <p className="card-subtitle">Stick to the plan, skip the rice.</p>
-
-        <div className="checkbox-group">
+      <div className="glass-card main-fuel-card">
+        <div className="fuel-toggle-group">
           <button
-            className={`binary-btn ${lunchProtein === true ? 'success' : ''}`}
-            onClick={() => updateStats({ lunchProtein: true })}
+            className={`fuel-btn ${lunchProtein ? 'active' : ''}`}
+            onClick={() => updateStats({ lunchProtein: !lunchProtein })}
           >
-            <Check size={18} />
-            <span>Protein Obtained</span>
+            <div className="btn-icon">🍗</div>
+            <div className="btn-text">
+              <span>Protein Obtained</span>
+              <p>Lunch protein source</p>
+            </div>
+            {lunchProtein ? <Check className="status-icon" /> : <X className="status-icon x" />}
           </button>
 
           <button
-            className={`binary-btn ${noCarbs === true ? 'success' : lunchProtein === false ? 'fail' : ''}`}
-            onClick={() => updateStats({ noCarbs: true })}
+            className={`fuel-btn ${noCarbs ? 'active' : ''}`}
+            onClick={() => updateStats({ noCarbs: !noCarbs })}
           >
-            <X size={18} />
-            <span>No Carbs (Pilav-free)</span>
+            <div className="btn-icon">Rice</div>
+            <div className="btn-text">
+              <span>No Carbs</span>
+              <p>Pilav-free lunch</p>
+            </div>
+            {noCarbs ? <Check className="status-icon" /> : <X className="status-icon x" />}
           </button>
         </div>
-
-        {lunchProtein && noCarbs && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="success-feedback"
-          >
-            <Flame size={16} />
-            <span>Elite Discipline! Fat burning continues.</span>
-          </motion.div>
-        )}
       </div>
 
-      <div className="hydration-grid">
-        <div className="glass-card stat-mini">
-          <div className="stat-info">
-            <h4>Water</h4>
-            <div className="counter">
-              <span className="count-num">{(waterCount * 0.5).toFixed(1)}L</span>
-              <span className="count-label">/ 4.0L</span>
-            </div>
+      <div className="glass-card water-card">
+        <div className="water-header">
+          <div className="header-info">
+            <Droplets className="blue" size={18} />
+            <h3>Hydration Status</h3>
           </div>
-          <button className="add-btn" onClick={() => updateStats({ waterCount: waterCount + 1 })}>+</button>
+          <span className="water-count-text">{(waterCount * 0.5).toFixed(1)}L / 4.0L</span>
         </div>
 
-        <div className="glass-card stat-mini">
-          <div className="stat-info">
-            <h4>Soda (Maden Suyu)</h4>
-            <div className="counter">
-              <span className="count-num">{sodaCount}</span>
-              <span className="count-label">/ 2 Bottles</span>
-            </div>
+        <div className="hydration-tank-container">
+          <div className="tank-wall">
+            <motion.div
+              className="water-level"
+              initial={{ height: 0 }}
+              animate={{ height: `${(waterCount / 8) * 100}%` }}
+              transition={{ type: 'spring', damping: 20 }}
+            >
+              <div className="wave"></div>
+            </motion.div>
           </div>
-          <button className="add-btn" onClick={() => updateStats({ sodaCount: sodaCount + 1 })}>+</button>
+          <div className="glasses-grid">
+            {[...Array(8)].map((_, i) => (
+              <button
+                key={i}
+                className={`glass-btn ${i < waterCount ? 'full' : ''}`}
+                onClick={() => updateStats({ waterCount: i + 1 === waterCount ? i : i + 1 })}
+              >
+                <Droplets size={20} />
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+
+      <div className="glass-card stat-mini">
+        <div className="stat-info">
+          <h4>Soda (Maden Suyu)</h4>
+          <div className="counter">
+            <span className="count-num">{sodaCount}</span>
+            <span className="count-label">bottles</span>
+          </div>
+        </div>
+        <button className="add-btn" onClick={() => updateStats({ sodaCount: sodaCount + 1 })}>+</button>
       </div>
 
       <div className="glass-card supplement-card">
@@ -100,12 +111,12 @@ const FuelLog: React.FC = () => {
           {SUPP_LIST.map(supp => (
             <button
               key={supp.id}
-              className={`supp-btn ${supplements.includes(supp.id) ? 'active' : ''}`}
+              className={`supp-btn ${(supplements || []).includes(supp.id) ? 'active' : ''}`}
               onClick={() => toggleSupplement(supp.id)}
             >
               <span className="supp-icon">{supp.icon}</span>
               <span className="supp-name">{supp.name}</span>
-              {supplements.includes(supp.id) && <Check size={14} className="check-mark" />}
+              {(supplements || []).includes(supp.id) && <Check size={14} className="check-mark" />}
             </button>
           ))}
         </div>
@@ -116,160 +127,66 @@ const FuelLog: React.FC = () => {
           <Info size={16} />
           <h4>Pro Tip</h4>
         </div>
-        <p>If you feel a headache (Keto Flu), add a pinch of Himalayan salt to your water immediately.</p>
+        <p>Maden suyu elektrolit dengesi için kritiktir. Özellikle ofis günlerinde ihmal etme Spartan.</p>
       </div>
 
       <style>{`
-        .fuel-log {
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-        }
-        .section-title {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 0.5rem;
-        }
-        .title-icon { color: #3b82f6; }
-        
-        .tracker-card {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-        .card-subtitle {
-          font-size: 0.8rem;
-          color: var(--text-secondary);
-        }
+                .fuel-log { display: flex; flex-direction: column; gap: 1.25rem; }
+                .section-title { display: flex; align-items: center; gap: 0.75rem; color: #fff; }
+                .crimson { color: var(--accent-color); }
+                .blue { color: #3b82f6; }
+                
+                .fuel-toggle-group { display: flex; flex-direction: column; gap: 1rem; }
+                .fuel-btn {
+                    display: flex; align-items: center; gap: 1rem; background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid var(--glass-border); border-radius: 1rem; padding: 1.25rem; color: #fff; text-align: left;
+                }
+                .fuel-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-color); }
+                .btn-text span { display: block; font-weight: 700; font-size: 1rem; }
+                .btn-text p { font-size: 0.75rem; color: var(--text-secondary); }
+                .status-icon { margin-left: auto; color: #10b981; }
+                .status-icon.x { color: var(--accent-color); opacity: 0.3; }
 
-        .checkbox-group {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.75rem;
-          margin: 0.5rem 0;
-        }
+                .water-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+                .water-count-text { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); }
+                .hydration-tank-container { display: flex; gap: 1.5rem; align-items: center; }
+                .tank-wall {
+                    width: 60px; height: 120px; border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 0.75rem;
+                    position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.02);
+                }
+                .water-level {
+                    position: absolute; bottom: 0; left: 0; width: 100%;
+                    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+                    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+                }
+                .wave {
+                    position: absolute; top: -10px; left: 0; width: 200%; height: 20px;
+                    background: rgba(255, 255, 255, 0.1); border-radius: 40%; animation: wave 3s infinite linear;
+                }
+                @keyframes wave {
+                    0% { transform: translateX(0) rotate(0deg); }
+                    100% { transform: translateX(-50%) rotate(360deg); }
+                }
+                .glasses-grid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+                .glass-btn {
+                    aspect-ratio: 1; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+                    border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.1);
+                }
+                .glass-btn.full { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: #3b82f6; }
 
-        .binary-btn {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid var(--glass-border);
-          color: var(--text-primary);
-          padding: 1rem;
-          border-radius: 1rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
+                .stat-mini { display: flex; justify-content: space-between; align-items: center; }
+                .count-num { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); }
+                .count-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }
+                .add-btn { width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: #fff; }
 
-        .binary-btn.success {
-          background: rgba(34, 197, 94, 0.1);
-          border-color: rgba(34, 197, 94, 0.3);
-          color: #4ade80;
-        }
-
-        .success-feedback {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          background: rgba(212, 175, 55, 0.1);
-          border: 1px solid rgba(212, 175, 55, 0.2);
-          border-radius: 0.75rem;
-          color: var(--primary-color);
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
-
-        .hydration-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-
-        .stat-mini {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem !important;
-        }
-
-        .stat-info h4 {
-          font-size: 0.8rem;
-          color: var(--text-secondary);
-          margin-bottom: 0.25rem;
-        }
-
-        .count-num {
-          font-size: 1.25rem;
-          font-weight: 700;
-        }
-        .count-label {
-          font-size: 0.7rem;
-          color: var(--text-secondary);
-          margin-left: 0.25rem;
-        }
-
-        .add-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: none;
-          background: var(--primary-color);
-          color: var(--bg-color);
-          font-weight: 800;
-          font-size: 1.2rem;
-        }
-
-        .info-card {
-          background: rgba(59, 130, 246, 0.05);
-          border-color: rgba(59, 130, 246, 0.1);
-        }
-        .supplement-card h3 {
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-        }
-        .supp-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.75rem;
-        }
-        .supp-btn {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid var(--glass-border);
-          color: var(--text-secondary);
-          padding: 0.75rem;
-          border-radius: 0.75rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-          transition: all 0.2s ease;
-        }
-        .supp-btn.active {
-          background: rgba(212, 175, 55, 0.1);
-          border-color: var(--primary-color);
-          color: var(--primary-color);
-        }
-        .check-mark {
-          margin-left: auto;
-        }
-        .info-header {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          color: #3b82f6;
-          margin-bottom: 0.5rem;
-        }
-        .info-card p {
-          font-size: 0.8rem;
-          line-height: 1.4;
-          color: var(--text-secondary);
-        }
-      `}</style>
+                .supp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+                .supp-btn {
+                    background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); color: var(--text-secondary);
+                    padding: 0.75rem; border-radius: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 600;
+                }
+                .supp-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-color); color: var(--primary-color); }
+                .info-card { background: rgba(59, 130, 246, 0.05); border-color: rgba(59, 130, 246, 0.1); }
+            `}</style>
     </div>
   );
 };

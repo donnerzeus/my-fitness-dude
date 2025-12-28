@@ -8,6 +8,8 @@ export interface DailyStats {
     sleepHours: number;
     supplements: string[];
     customWorkout?: string[]; // Array of exercise names
+    exerciseReps?: Record<string, number>; // exerciseId -> max reps
+    currentTrial?: string;
     measurements?: {
         weight: number;
         waist: number;
@@ -42,7 +44,8 @@ export const StorageService = {
             sodaCount: 0,
             workoutCompleted: false,
             sleepHours: 0,
-            supplements: []
+            supplements: [],
+            exerciseReps: {}
         };
     },
 

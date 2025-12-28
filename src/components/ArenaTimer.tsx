@@ -37,6 +37,11 @@ const ArenaTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(currentCircuit[0].duration);
   const [isActive, setIsActive] = useState(false);
   const [round, setRound] = useState(1);
+  const [currentReps, setCurrentReps] = useState<string>('');
+
+  const exerciseReps = stats.exerciseReps || {};
+  const currentExercise = currentCircuit[currentIdx];
+  const previousRecord = exerciseReps[currentExercise.id] || 0;
 
   useEffect(() => {
     let interval: any = null;
@@ -51,6 +56,17 @@ const ArenaTimer: React.FC = () => {
   }, [isActive, timeLeft]);
 
   const nextExercise = () => {
+    // Save reps if any entered
+    if (currentReps && !isNaN(parseInt(currentReps))) {
+      const reps = parseInt(currentReps);
+      const newReps = { ...exerciseReps };
+      if (reps > (newReps[currentExercise.id] || 0)) {
+        newReps[currentExercise.id] = reps;
+        StorageService.saveStats({ ...stats, exerciseReps: newReps });
+      }
+    }
+    setCurrentReps('');
+
     if (currentIdx < currentCircuit.length - 1) {
       setCurrentIdx(currentIdx + 1);
       setTimeLeft(currentCircuit[currentIdx + 1].duration);
@@ -175,6 +191,24 @@ const ArenaTimer: React.FC = () => {
           </div>
         </div>
 
+        {currentExercise.category !== 'Rest' && (
+          <div className="ghost-tracker">
+            <div className="record-box">
+              <span className="record-label">GHOST RECORD</span>
+              <span className="record-val">{previousRecord} REPS</span>
+            </div>
+            <div className="rep-input-area">
+              <input
+                type="number"
+                placeholder="REPS"
+                value={currentReps}
+                onChange={(e) => setCurrentReps(e.target.value)}
+                className="rep-input"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="controls">
           <button className="control-btn secondary" onClick={reset}>
             <RotateCcw size={24} />
@@ -256,6 +290,33 @@ const ArenaTimer: React.FC = () => {
         .clock-text { display: flex; flex-direction: column; align-items: center; }
         .time-big { font-size: 4rem; font-weight: 800; color: #fff; line-height: 1; }
         .sec-label { font-size: 0.8rem; letter-spacing: 0.2em; color: var(--text-secondary); }
+
+        .ghost-tracker {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 1rem;
+          border: 1px dashed rgba(212, 175, 55, 0.2);
+        }
+        .record-box { display: flex; flex-direction: column; }
+        .record-label { font-size: 0.6rem; font-weight: 800; color: var(--primary-color); letter-spacing: 0.1em; }
+        .record-val { font-size: 1.1rem; font-weight: 800; color: #fff; }
+        .rep-input-area { display: flex; align-items: center; }
+        .rep-input {
+          width: 80px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--glass-border);
+          border-radius: 0.5rem;
+          color: white;
+          padding: 0.5rem;
+          text-align: center;
+          font-weight: 800;
+          font-size: 1.2rem;
+        }
+
         .controls { display: flex; align-items: center; gap: 1.5rem; }
         .control-btn { background: none; border: none; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; }
         .control-btn.primary { width: 64px; height: 64px; background: var(--accent-color); color: #fff; border-radius: 50%; box-shadow: 0 0 20px rgba(178, 34, 34, 0.4); }
