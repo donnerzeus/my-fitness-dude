@@ -130,29 +130,41 @@ const ArenaTimer: React.FC = () => {
         </div>
       )}
 
-      {isSwappingIdx !== null && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="glass-card library-modal"
-        >
-          <div className="modal-header">
-            <h3>Choose Alternative</h3>
-            <button onClick={() => setIsSwappingIdx(null)}><X size={20} /></button>
-          </div>
-          <div className="library-list">
-            {EXERCISE_LIBRARY.filter(ex => ex.category !== 'Rest').map(ex => (
-              <button key={ex.id} className="lib-item" onClick={() => swapExercise(ex.id)}>
-                <div className="lib-info">
-                  <span className="lib-name">{ex.name}</span>
-                  <span className="lib-cat">{ex.category}</span>
-                </div>
-                <Check size={18} className="gold" />
-              </button>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isSwappingIdx !== null && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="modal-overlay"
+              onClick={() => setIsSwappingIdx(null)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="glass-card library-modal"
+            >
+              <div className="modal-header">
+                <h3>Choose Alternative</h3>
+                <button className="close-btn" onClick={() => setIsSwappingIdx(null)}><X size={20} /></button>
+              </div>
+              <div className="library-list">
+                {EXERCISE_LIBRARY.filter(ex => ex.category !== 'Rest').map(ex => (
+                  <button key={ex.id} className="lib-item" onClick={() => swapExercise(ex.id)}>
+                    <div className="lib-info">
+                      <span className="lib-name">{ex.name}</span>
+                      <span className="lib-cat">{ex.category}</span>
+                    </div>
+                    <Check size={18} className="gold" />
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <div className="glass-card timer-card">
         <div className="timer-header">
@@ -246,25 +258,48 @@ const ArenaTimer: React.FC = () => {
           color: var(--primary-color);
           opacity: 0.6;
         }
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(8px);
+          z-index: 99;
+        }
         .library-modal {
           position: fixed;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) !important;
           width: 90%;
           max-width: 400px;
+          max-height: 80vh;
           z-index: 100;
           background: #1a1a1d !important;
           border: 1px solid var(--primary-color) !important;
+          padding: 1.5rem !important;
+          display: flex;
+          flex-direction: column;
         }
         .modal-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 1.5rem;
+          flex-shrink: 0;
         }
-        .modal-header h3 { font-size: 1.1rem; }
-        .library-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 300px; overflow-y: auto; }
+        .close-btn { background: none; border: none; color: var(--text-secondary); }
+        .modal-header h3 { font-size: 1.1rem; color: var(--primary-color); font-weight: 800; text-transform: uppercase; }
+        .library-list { 
+          display: flex; 
+          flex-direction: column; 
+          gap: 0.75rem; 
+          overflow-y: auto;
+          flex: 1;
+          padding-right: 0.5rem;
+        }
         .lib-item {
           display: flex;
           justify-content: space-between;
