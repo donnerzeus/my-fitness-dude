@@ -5,6 +5,7 @@ export interface DailyStats {
     waterCount: number;
     sodaCount: number;
     workoutCompleted: boolean;
+    sleepHours: number;
     measurements?: {
         weight: number;
         waist: number;
@@ -35,7 +36,8 @@ export const StorageService = {
             noCarbs: null,
             waterCount: 0,
             sodaCount: 0,
-            workoutCompleted: false
+            workoutCompleted: false,
+            sleepHours: 0
         };
     },
 

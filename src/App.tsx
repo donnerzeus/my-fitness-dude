@@ -10,6 +10,7 @@ import ArenaTimer from './components/ArenaTimer';
 import ProgressSummary from './components/ProgressSummary';
 import Measurements from './components/Measurements';
 import MealPrep from './components/MealPrep';
+import HistoricalData from './components/HistoricalData';
 
 type Tab = 'dashboard' | 'fuel' | 'arena';
 
@@ -50,6 +51,7 @@ const App: React.FC = () => {
             >
               <WarriorClock />
               <ProgressSummary />
+              <HistoricalData />
               <Measurements />
             </motion.div>
           )}
