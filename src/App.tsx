@@ -1,24 +1,37 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Activity, LayoutDashboard, Utensils, Zap } from 'lucide-react';
+import { Shield, LayoutDashboard, Utensils, Zap } from 'lucide-react';
 import './App.css';
 
 // Components (We will create these next)
 import WarriorClock from './components/WarriorClock';
 import FuelLog from './components/FuelLog';
 import ArenaTimer from './components/ArenaTimer';
+import ProgressSummary from './components/ProgressSummary';
+import Measurements from './components/Measurements';
+import MealPrep from './components/MealPrep';
 
 type Tab = 'dashboard' | 'fuel' | 'arena';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Günaydın Spartan";
+    if (hour < 18) return "Tünaydın Spartan";
+    return "İyi Akşamlar Spartan";
+  };
+
   return (
     <div className="app-container">
       <header className="main-header">
         <div className="logo-section">
           <Shield className="logo-icon" />
-          <h1>PROJECT SPARTAN</h1>
+          <div className="title-stack">
+            <h1>PROJECT SPARTAN</h1>
+            <span className="greeting">{getGreeting()}</span>
+          </div>
         </div>
         <div className="day-badge">
           {new Date().toLocaleDateString('tr-TR', { weekday: 'long' })}
@@ -36,15 +49,8 @@ const App: React.FC = () => {
               className="tab-content"
             >
               <WarriorClock />
-              <div className="dashboard-grid">
-                <div className="quick-stats glass-card">
-                  <h3>Daily Status</h3>
-                  <div className="stat-row">
-                    <Activity size={20} className="icon gold" />
-                    <span>Zinciri Kırma: 7 Gün</span>
-                  </div>
-                </div>
-              </div>
+              <ProgressSummary />
+              <Measurements />
             </motion.div>
           )}
 
@@ -57,6 +63,7 @@ const App: React.FC = () => {
               className="tab-content"
             >
               <FuelLog />
+              <MealPrep />
             </motion.div>
           )}
 

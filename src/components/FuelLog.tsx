@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Droplets, Info, Flame } from 'lucide-react';
+import type { DailyStats } from '../services/StorageService';
+import { StorageService } from '../services/StorageService';
 
 const FuelLog: React.FC = () => {
-    const [lunchProtein, setLunchProtein] = useState<boolean | null>(null);
-    const [noCarbs, setNoCarbs] = useState<boolean | null>(null);
-    const [waterCount, setWaterCount] = useState(0);
-    const [sodaCount, setSodaCount] = useState(0);
+    const [stats, setStats] = useState<DailyStats>(StorageService.getStats());
+
+    const updateStats = (updates: Partial<DailyStats>) => {
+        const newStats = { ...stats, ...updates };
+        setStats(newStats);
+        StorageService.saveStats(newStats);
+    };
+
+    const { lunchProtein, noCarbs, waterCount, sodaCount } = stats;
 
     return (
         <div className="fuel-log">
@@ -22,7 +29,7 @@ const FuelLog: React.FC = () => {
                 <div className="checkbox-group">
                     <button
                         className={`binary-btn ${lunchProtein === true ? 'success' : ''}`}
-                        onClick={() => setLunchProtein(true)}
+                        onClick={() => updateStats({ lunchProtein: true })}
                     >
                         <Check size={18} />
                         <span>Protein Obtained</span>
@@ -30,7 +37,7 @@ const FuelLog: React.FC = () => {
 
                     <button
                         className={`binary-btn ${noCarbs === true ? 'success' : lunchProtein === false ? 'fail' : ''}`}
-                        onClick={() => setNoCarbs(true)}
+                        onClick={() => updateStats({ noCarbs: true })}
                     >
                         <X size={18} />
                         <span>No Carbs (Pilav-free)</span>
@@ -58,7 +65,7 @@ const FuelLog: React.FC = () => {
                             <span className="count-label">/ 4.0L</span>
                         </div>
                     </div>
-                    <button className="add-btn" onClick={() => setWaterCount(c => c + 1)}>+</button>
+                    <button className="add-btn" onClick={() => updateStats({ waterCount: waterCount + 1 })}>+</button>
                 </div>
 
                 <div className="glass-card stat-mini">
@@ -69,7 +76,7 @@ const FuelLog: React.FC = () => {
                             <span className="count-label">/ 2 Bottles</span>
                         </div>
                     </div>
-                    <button className="add-btn" onClick={() => setSodaCount(c => c + 1)}>+</button>
+                    <button className="add-btn" onClick={() => updateStats({ sodaCount: sodaCount + 1 })}>+</button>
                 </div>
             </div>
 

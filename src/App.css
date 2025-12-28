@@ -22,6 +22,19 @@
   gap: 0.75rem;
 }
 
+.title-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .logo-icon {
   color: var(--primary-color);
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw, ChevronRight, Dumbbell } from 'lucide-react';
+import { StorageService } from '../services/StorageService';
 
 interface Exercise {
     name: string;
@@ -48,6 +49,8 @@ const ArenaTimer: React.FC = () => {
                 setTimeLeft(CIRCUIT[0].duration);
             } else {
                 setIsActive(false);
+                const stats = StorageService.getStats();
+                StorageService.saveStats({ ...stats, workoutCompleted: true });
                 alert('VICTORY! Workout Complete Spartan.');
             }
         }
