@@ -1,6 +1,7 @@
-import React from 'react';
-import { Trophy, Flame, Quote, Sword, CheckCircle2, Circle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Trophy, Flame, Quote, Sword, CheckCircle2, Circle, Bell } from 'lucide-react';
 import { StorageService } from '../services/StorageService';
+import { NotificationService } from '../services/NotificationService';
 
 const STOIC_QUOTES = [
   { text: "No man is more unhappy than he who never faces adversity. For he is not permitted to prove himself.", author: "Seneca" },
@@ -24,6 +25,18 @@ const ProgressSummary: React.FC = () => {
   const currentTrial = SPARTAN_TRIALS[weekNum % SPARTAN_TRIALS.length];
   const quote = STOIC_QUOTES[new Date().getDate() % STOIC_QUOTES.length];
 
+  const [notifGranted, setNotifGranted] = useState(Notification.permission === 'granted');
+
+  const handleRequestNotif = async () => {
+    const granted = await NotificationService.requestPermission();
+    setNotifGranted(granted);
+    if (granted) {
+      NotificationService.sendNotification('System Access Granted', {
+        body: 'You will receive logical status updates regarding your fasting and hydration.'
+      });
+    }
+  };
+
   const tasks = [
     { label: 'Protein Target', done: stats.lunchProtein },
     { label: 'No Carbs Needed', done: stats.noCarbs },
@@ -39,6 +52,11 @@ const ProgressSummary: React.FC = () => {
           <h2>Daily Status</h2>
           <p>{new Date().toLocaleDateString('tr-TR')}</p>
         </div>
+        {!notifGranted && (
+          <button className="notif-req-btn" onClick={handleRequestNotif} title="Enable Status Updates">
+            <Bell size={18} />
+          </button>
+        )}
         <div className="streak-badge">
           <Flame size={16} />
           <span>{streak} DAY STREAK</span>
@@ -77,6 +95,21 @@ const ProgressSummary: React.FC = () => {
                 .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
                 .header-info h2 { font-size: 1.1rem; margin: 0; color: #fff; }
                 .header-info p { font-size: 0.75rem; color: var(--text-secondary); }
+                
+                .notif-req-btn {
+                    margin-left: auto;
+                    margin-right: 0.75rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--glass-border);
+                    color: var(--primary-color);
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
                 .streak-badge { 
                     display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; 
                     background: rgba(212, 175, 55, 0.1); border-radius: 2rem; color: var(--primary-color);

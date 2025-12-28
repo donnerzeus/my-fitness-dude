@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Droplets, Info, Flame } from 'lucide-react';
 import type { DailyStats } from '../services/StorageService';
+import { NotificationService } from '../services/NotificationService';
 
 interface FuelLogProps {
   stats: DailyStats;
@@ -16,6 +17,13 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
       ? supplements.filter(s => s !== name)
       : [...(supplements || []), name];
     updateStats({ supplements: newSupps });
+  };
+
+  const handleWaterUpdate = (newCount: number) => {
+    updateStats({ waterCount: newCount });
+    if (newCount > waterCount) {
+      NotificationService.remindHydration(newCount);
+    }
   };
 
   const SUPP_LIST = [
@@ -50,7 +58,7 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
             className={`fuel-btn ${noCarbs ? 'active' : ''}`}
             onClick={() => updateStats({ noCarbs: !noCarbs })}
           >
-            <div className="btn-icon">Rice</div>
+            <div className="btn-icon">🍚</div>
             <div className="btn-text">
               <span>No Carbs</span>
               <p>Pilav-free lunch</p>
@@ -63,7 +71,8 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
       <div className="glass-card water-card">
         <div className="water-header">
           <div className="header-info">
-            <Droplets className="blue" size={18} />
+            <img src="/favicon.png" alt="" style={{ width: 18, height: 18, filter: 'hue-rotate(180deg)' }} />
+            <Droplets className="blue" size={18} style={{ marginLeft: -22 }} />
             <h3>Hydration Status</h3>
           </div>
           <span className="water-count-text">{(waterCount * 0.5).toFixed(1)}L / 4.0L</span>
@@ -85,7 +94,7 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
               <button
                 key={i}
                 className={`glass-btn ${i < waterCount ? 'full' : ''}`}
-                onClick={() => updateStats({ waterCount: i + 1 === waterCount ? i : i + 1 })}
+                onClick={() => handleWaterUpdate(i + 1 === waterCount ? i : i + 1)}
               >
                 <Droplets size={20} />
               </button>
