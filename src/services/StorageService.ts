@@ -6,9 +6,13 @@ export interface DailyStats {
     sodaCount: number;
     workoutCompleted: boolean;
     sleepHours: number;
+    supplements: string[];
+    customWorkout?: string[]; // Array of exercise names
     measurements?: {
         weight: number;
         waist: number;
+        neck?: number;
+        height?: number;
     };
 }
 
@@ -37,7 +41,8 @@ export const StorageService = {
             waterCount: 0,
             sodaCount: 0,
             workoutCompleted: false,
-            sleepHours: 0
+            sleepHours: 0,
+            supplements: []
         };
     },
 

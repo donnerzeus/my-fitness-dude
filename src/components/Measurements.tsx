@@ -3,85 +3,129 @@ import { Ruler, Scale, Save, TrendingDown, Moon, Bed } from 'lucide-react';
 import { StorageService } from '../services/StorageService';
 
 const Measurements: React.FC = () => {
-    const stats = StorageService.getStats();
-    const [weight, setWeight] = useState(stats.measurements?.weight || 0);
-    const [waist, setWaist] = useState(stats.measurements?.waist || 0);
-    const [sleep, setSleep] = useState(stats.sleepHours || 0);
-    const [saved, setSaved] = useState(false);
+  const stats = StorageService.getStats();
+  const [weight, setWeight] = useState(stats.measurements?.weight || 0);
+  const [waist, setWaist] = useState(stats.measurements?.waist || 0);
+  const [neck, setNeck] = useState(stats.measurements?.neck || 38);
+  const [height, setHeight] = useState(stats.measurements?.height || 180);
+  const [sleep, setSleep] = useState(stats.sleepHours || 0);
+  const [saved, setSaved] = useState(false);
 
-    const handleSave = () => {
-        StorageService.saveStats({
-            ...stats,
-            sleepHours: sleep,
-            measurements: { weight, waist }
-        });
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
-    };
+  const calculateBodyFat = () => {
+    if (!waist || !neck || !height) return null;
+    // US Navy Formula for Men
+    const bf = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+    return bf.toFixed(1);
+  };
 
-    return (
-        <div className="measurements glass-card">
-            <div className="card-header">
-                <TrendingDown className="icon gold" size={20} />
-                <h3>Body & Sleep Metrics</h3>
-            </div>
+  const bodyFat = calculateBodyFat();
 
-            <div className="metrics-grid">
-                <div className="metric-input">
-                    <div className="input-label">
-                        <Scale size={14} />
-                        <span>Weight (kg)</span>
-                    </div>
-                    <input
-                        type="number"
-                        value={weight || ''}
-                        onChange={(e) => setWeight(parseFloat(e.target.value))}
-                        placeholder="0.0"
-                    />
-                </div>
+  const handleSave = () => {
+    StorageService.saveStats({
+      ...stats,
+      sleepHours: sleep,
+      measurements: { weight, waist, neck, height }
+    });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
-                <div className="metric-input">
-                    <div className="input-label">
-                        <Ruler size={14} />
-                        <span>Waist (cm)</span>
-                    </div>
-                    <input
-                        type="number"
-                        value={waist || ''}
-                        onChange={(e) => setWaist(parseFloat(e.target.value))}
-                        placeholder="0.0"
-                    />
-                </div>
+  return (
+    <div className="measurements glass-card">
+      <div className="card-header">
+        <TrendingDown className="icon gold" size={20} />
+        <h3>Body & Sleep Metrics</h3>
+      </div>
 
-                <div className="metric-input full-width">
-                    <div className="input-label">
-                        <Moon size={14} />
-                        <span>Sleep Duration (Hours)</span>
-                    </div>
-                    <div className="sleep-selector">
-                        <Bed size={18} className={sleep >= 7 ? 'text-success' : 'text-warning'} />
-                        <input
-                            type="range"
-                            min="0"
-                            max="12"
-                            step="0.5"
-                            value={sleep}
-                            onChange={(e) => setSleep(parseFloat(e.target.value))}
-                        />
-                        <span className="sleep-val">{sleep}h</span>
-                    </div>
-                </div>
-            </div>
+      <div className="metrics-grid">
+        <div className="metric-input">
+          <div className="input-label">
+            <Scale size={14} />
+            <span>Weight (kg)</span>
+          </div>
+          <input
+            type="number"
+            value={weight || ''}
+            onChange={(e) => setWeight(parseFloat(e.target.value))}
+            placeholder="0.0"
+          />
+        </div>
 
-            <button
-                className={`save-btn ${saved ? 'success' : ''}`}
-                onClick={handleSave}
-            >
-                <Save size={18} />
-                <span>{saved ? 'Progress Logged!' : 'Update Metrics'}</span>
-            </button>
+        <div className="metric-input">
+          <div className="input-label">
+            <Ruler size={14} />
+            <span>Waist (cm)</span>
+          </div>
+          <input
+            type="number"
+            value={waist || ''}
+            onChange={(e) => setWaist(parseFloat(e.target.value))}
+            placeholder="0.0"
+          />
+        </div>
 
-            <style>{`
+        <div className="metric-input">
+          <div className="input-label">
+            <TrendingDown size={14} />
+            <span>Neck (cm)</span>
+          </div>
+          <input
+            type="number"
+            value={neck || ''}
+            onChange={(e) => setNeck(parseFloat(e.target.value))}
+            placeholder="38.0"
+          />
+        </div>
+
+        <div className="metric-input">
+          <div className="input-label">
+            <Ruler size={14} />
+            <span>Height (cm)</span>
+          </div>
+          <input
+            type="number"
+            value={height || ''}
+            onChange={(e) => setHeight(parseFloat(e.target.value))}
+            placeholder="180.0"
+          />
+        </div>
+
+        {bodyFat && (
+          <div className="bf-display full-width">
+            <span className="bf-label">Estimated Body Fat (Navy Method)</span>
+            <span className="bf-val">{bodyFat}%</span>
+          </div>
+        )}
+
+        <div className="metric-input full-width">
+          <div className="input-label">
+            <Moon size={14} />
+            <span>Sleep Duration (Hours)</span>
+          </div>
+          <div className="sleep-selector">
+            <Bed size={18} className={sleep >= 7 ? 'text-success' : 'text-warning'} />
+            <input
+              type="range"
+              min="0"
+              max="12"
+              step="0.5"
+              value={sleep}
+              onChange={(e) => setSleep(parseFloat(e.target.value))}
+            />
+            <span className="sleep-val">{sleep}h</span>
+          </div>
+        </div>
+      </div>
+
+      <button
+        className={`save-btn ${saved ? 'success' : ''}`}
+        onClick={handleSave}
+      >
+        <Save size={18} />
+        <span>{saved ? 'Progress Logged!' : 'Update Metrics'}</span>
+      </button>
+
+      <style>{`
         .measurements {
           display: flex;
           flex-direction: column;
@@ -162,8 +206,8 @@ const Measurements: React.FC = () => {
           color: var(--bg-color);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Measurements;

@@ -5,90 +5,121 @@ import type { DailyStats } from '../services/StorageService';
 import { StorageService } from '../services/StorageService';
 
 const FuelLog: React.FC = () => {
-    const [stats, setStats] = useState<DailyStats>(StorageService.getStats());
+  const [stats, setStats] = useState<DailyStats>(StorageService.getStats());
 
-    const updateStats = (updates: Partial<DailyStats>) => {
-        const newStats = { ...stats, ...updates };
-        setStats(newStats);
-        StorageService.saveStats(newStats);
-    };
+  const updateStats = (updates: Partial<DailyStats>) => {
+    const newStats = { ...stats, ...updates };
+    setStats(newStats);
+    StorageService.saveStats(newStats);
+  };
 
-    const { lunchProtein, noCarbs, waterCount, sodaCount } = stats;
+  const { lunchProtein, noCarbs, waterCount, sodaCount, supplements } = stats;
 
-    return (
-        <div className="fuel-log">
-            <div className="section-title">
-                <Droplets className="title-icon" />
-                <h2>Hydration & Fuel</h2>
+  const toggleSupplement = (name: string) => {
+    const newSupps = supplements.includes(name)
+      ? supplements.filter(s => s !== name)
+      : [...supplements, name];
+    updateStats({ supplements: newSupps });
+  };
+
+  const SUPP_LIST = [
+    { id: 'multi', name: 'Multivitamin', icon: '💊' },
+    { id: 'zma', name: 'ZMA / Magnezyum', icon: '🌙' },
+    { id: 'vitd', name: 'Vitamin D3', icon: '☀️' },
+    { id: 'protein', name: 'Protein Powder', icon: '🥤' }
+  ];
+
+  return (
+    <div className="fuel-log">
+      <div className="section-title">
+        <Droplets className="title-icon" />
+        <h2>Hydration & Fuel</h2>
+      </div>
+
+      <div className="glass-card tracker-card">
+        <h3>Lunch Control (Sabancı Style)</h3>
+        <p className="card-subtitle">Stick to the plan, skip the rice.</p>
+
+        <div className="checkbox-group">
+          <button
+            className={`binary-btn ${lunchProtein === true ? 'success' : ''}`}
+            onClick={() => updateStats({ lunchProtein: true })}
+          >
+            <Check size={18} />
+            <span>Protein Obtained</span>
+          </button>
+
+          <button
+            className={`binary-btn ${noCarbs === true ? 'success' : lunchProtein === false ? 'fail' : ''}`}
+            onClick={() => updateStats({ noCarbs: true })}
+          >
+            <X size={18} />
+            <span>No Carbs (Pilav-free)</span>
+          </button>
+        </div>
+
+        {lunchProtein && noCarbs && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="success-feedback"
+          >
+            <Flame size={16} />
+            <span>Elite Discipline! Fat burning continues.</span>
+          </motion.div>
+        )}
+      </div>
+
+      <div className="hydration-grid">
+        <div className="glass-card stat-mini">
+          <div className="stat-info">
+            <h4>Water</h4>
+            <div className="counter">
+              <span className="count-num">{(waterCount * 0.5).toFixed(1)}L</span>
+              <span className="count-label">/ 4.0L</span>
             </div>
+          </div>
+          <button className="add-btn" onClick={() => updateStats({ waterCount: waterCount + 1 })}>+</button>
+        </div>
 
-            <div className="glass-card tracker-card">
-                <h3>Lunch Control (Sabancı Style)</h3>
-                <p className="card-subtitle">Stick to the plan, skip the rice.</p>
-
-                <div className="checkbox-group">
-                    <button
-                        className={`binary-btn ${lunchProtein === true ? 'success' : ''}`}
-                        onClick={() => updateStats({ lunchProtein: true })}
-                    >
-                        <Check size={18} />
-                        <span>Protein Obtained</span>
-                    </button>
-
-                    <button
-                        className={`binary-btn ${noCarbs === true ? 'success' : lunchProtein === false ? 'fail' : ''}`}
-                        onClick={() => updateStats({ noCarbs: true })}
-                    >
-                        <X size={18} />
-                        <span>No Carbs (Pilav-free)</span>
-                    </button>
-                </div>
-
-                {lunchProtein && noCarbs && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="success-feedback"
-                    >
-                        <Flame size={16} />
-                        <span>Elite Discipline! Fat burning continues.</span>
-                    </motion.div>
-                )}
+        <div className="glass-card stat-mini">
+          <div className="stat-info">
+            <h4>Soda (Maden Suyu)</h4>
+            <div className="counter">
+              <span className="count-num">{sodaCount}</span>
+              <span className="count-label">/ 2 Bottles</span>
             </div>
+          </div>
+          <button className="add-btn" onClick={() => updateStats({ sodaCount: sodaCount + 1 })}>+</button>
+        </div>
+      </div>
 
-            <div className="hydration-grid">
-                <div className="glass-card stat-mini">
-                    <div className="stat-info">
-                        <h4>Water</h4>
-                        <div className="counter">
-                            <span className="count-num">{(waterCount * 0.5).toFixed(1)}L</span>
-                            <span className="count-label">/ 4.0L</span>
-                        </div>
-                    </div>
-                    <button className="add-btn" onClick={() => updateStats({ waterCount: waterCount + 1 })}>+</button>
-                </div>
+      <div className="glass-card supplement-card">
+        <h3>Daily Supplements</h3>
+        <div className="supp-grid">
+          {SUPP_LIST.map(supp => (
+            <button
+              key={supp.id}
+              className={`supp-btn ${supplements.includes(supp.id) ? 'active' : ''}`}
+              onClick={() => toggleSupplement(supp.id)}
+            >
+              <span className="supp-icon">{supp.icon}</span>
+              <span className="supp-name">{supp.name}</span>
+              {supplements.includes(supp.id) && <Check size={14} className="check-mark" />}
+            </button>
+          ))}
+        </div>
+      </div>
 
-                <div className="glass-card stat-mini">
-                    <div className="stat-info">
-                        <h4>Soda (Maden Suyu)</h4>
-                        <div className="counter">
-                            <span className="count-num">{sodaCount}</span>
-                            <span className="count-label">/ 2 Bottles</span>
-                        </div>
-                    </div>
-                    <button className="add-btn" onClick={() => updateStats({ sodaCount: sodaCount + 1 })}>+</button>
-                </div>
-            </div>
+      <div className="glass-card info-card">
+        <div className="info-header">
+          <Info size={16} />
+          <h4>Pro Tip</h4>
+        </div>
+        <p>If you feel a headache (Keto Flu), add a pinch of Himalayan salt to your water immediately.</p>
+      </div>
 
-            <div className="glass-card info-card">
-                <div className="info-header">
-                    <Info size={16} />
-                    <h4>Pro Tip</h4>
-                </div>
-                <p>If you feel a headache (Keto Flu), add a pinch of Himalayan salt to your water immediately.</p>
-            </div>
-
-            <style>{`
+      <style>{`
         .fuel-log {
           display: flex;
           flex-direction: column;
@@ -196,6 +227,36 @@ const FuelLog: React.FC = () => {
           background: rgba(59, 130, 246, 0.05);
           border-color: rgba(59, 130, 246, 0.1);
         }
+        .supplement-card h3 {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+        .supp-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
+        }
+        .supp-btn {
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid var(--glass-border);
+          color: var(--text-secondary);
+          padding: 0.75rem;
+          border-radius: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.8rem;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+        .supp-btn.active {
+          background: rgba(212, 175, 55, 0.1);
+          border-color: var(--primary-color);
+          color: var(--primary-color);
+        }
+        .check-mark {
+          margin-left: auto;
+        }
         .info-header {
           display: flex;
           align-items: center;
@@ -209,8 +270,8 @@ const FuelLog: React.FC = () => {
           color: var(--text-secondary);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default FuelLog;
