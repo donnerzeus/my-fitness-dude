@@ -1,0 +1,69 @@
+:root {
+  --bg-color: #0c0c0e;
+  --surface-color: #1a1a1d;
+  --primary-color: #d4af37;
+  /* Spartan Gold */
+  --accent-color: #b22222;
+  /* Spartan Crimson */
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: linear-gradient(rgba(12, 12, 14, 0.9), rgba(12, 12, 14, 0.9)), url('./assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
