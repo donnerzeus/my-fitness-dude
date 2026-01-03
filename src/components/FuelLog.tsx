@@ -36,7 +36,7 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
   return (
     <div className="fuel-log">
       <div className="section-title">
-        <Flame className="crimson" />
+        <Flame className="crimson" size={16} />
         <h2>Fuel Status</h2>
       </div>
 
@@ -98,7 +98,7 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
                 className={`glass-btn ${i < waterCount ? 'full' : ''}`}
                 onClick={() => handleWaterUpdate(i + 1 === waterCount ? i : i + 1)}
               >
-                <Droplets size={20} />
+                <Droplets size={16} />
               </button>
             ))}
           </div>
@@ -135,7 +135,7 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
 
       <div className="glass-card info-card">
         <div className="info-header">
-          <Info size={16} />
+          <Info size={14} />
           <h4>Pro Tip</h4>
         </div>
         <p>Maden suyu elektrolit dengesi için kritiktir. Özellikle ofis günlerinde ihmal etme Spartan.</p>

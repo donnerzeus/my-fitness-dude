@@ -33,14 +33,14 @@ const Measurements: React.FC = () => {
   return (
     <div className="measurements glass-card">
       <div className="card-header">
-        <TrendingDown className="icon gold" size={20} />
+        <TrendingDown className="icon gold" size={16} />
         <h3>Body & Sleep Metrics</h3>
       </div>
 
       <div className="metrics-grid">
         <div className="metric-input">
           <div className="input-label">
-            <Scale size={14} />
+            <Scale size={12} />
             <span>Weight (kg)</span>
           </div>
           <input
@@ -53,7 +53,7 @@ const Measurements: React.FC = () => {
 
         <div className="metric-input">
           <div className="input-label">
-            <Ruler size={14} />
+            <Ruler size={12} />
             <span>Waist (cm)</span>
           </div>
           <input
@@ -66,7 +66,7 @@ const Measurements: React.FC = () => {
 
         <div className="metric-input">
           <div className="input-label">
-            <TrendingDown size={14} />
+            <TrendingDown size={12} />
             <span>Neck (cm)</span>
           </div>
           <input
@@ -79,7 +79,7 @@ const Measurements: React.FC = () => {
 
         <div className="metric-input">
           <div className="input-label">
-            <Ruler size={14} />
+            <Ruler size={12} />
             <span>Height (cm)</span>
           </div>
           <input
@@ -99,11 +99,11 @@ const Measurements: React.FC = () => {
 
         <div className="metric-input full-width">
           <div className="input-label">
-            <Moon size={14} />
+            <Moon size={12} />
             <span>Sleep Duration (Hours)</span>
           </div>
           <div className="sleep-selector">
-            <Bed size={18} className={sleep >= 7 ? 'text-success' : 'text-warning'} />
+            <Bed size={16} className={sleep >= 7 ? 'text-success' : 'text-warning'} />
             <input
               type="range"
               min="0"
@@ -121,7 +121,7 @@ const Measurements: React.FC = () => {
         className={`save-btn ${saved ? 'success' : ''}`}
         onClick={handleSave}
       >
-        <Save size={18} />
+        <Save size={16} />
         <span>{saved ? 'Progress Logged!' : 'Update Metrics'}</span>
       </button>
 

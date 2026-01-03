@@ -126,12 +126,12 @@ const ArenaTimer: React.FC = () => {
   return (
     <div className="arena-timer">
       <div className="section-title">
-        <Dumbbell className="title-icon crimson" />
+        <Dumbbell className="title-icon crimson" size={18} />
         <h2>Hypertrophy Arena</h2>
       </div>
 
       <div className="glass-card hypertrophy-tip">
-        <Info size={16} className="gold" />
+        <Info size={14} className="gold" />
         <p><strong>Guray Max Logic:</strong> Focus on Mechanical Tension. Leave 0-1 reps in reserve (RIR).</p>
       </div>
 
@@ -158,7 +158,7 @@ const ArenaTimer: React.FC = () => {
                   <span>{ex.name}</span>
                 </div>
                 <button className="swap-btn-mini" onClick={() => setIsSwappingIdx(i)}>
-                  <RefreshCw size={14} />
+                  <RefreshCw size={12} />
                 </button>
               </div>
             ))}
@@ -181,7 +181,7 @@ const ArenaTimer: React.FC = () => {
             >
               <div className="modal-header">
                 <h3>Choose Movement</h3>
-                <button className="close-btn" onClick={() => setIsSwappingIdx(null)}><X size={20} /></button>
+                <button className="close-btn" onClick={() => setIsSwappingIdx(null)}><X size={16} /></button>
               </div>
               <div className="library-list">
                 {EXERCISE_LIBRARY.filter(ex => ex.category !== 'Rest').map(ex => (
@@ -254,16 +254,16 @@ const ArenaTimer: React.FC = () => {
 
         <div className="controls">
           <button className="control-btn secondary" onClick={reset}>
-            <RotateCcw size={24} />
+            <RotateCcw size={20} />
           </button>
           <button
             className={`control-btn primary ${isActive ? 'active' : ''}`}
             onClick={() => setIsActive(!isActive)}
           >
-            {isActive ? <Pause size={32} /> : <Play size={32} />}
+            {isActive ? <Pause size={24} /> : <Play size={24} />}
           </button>
           <button className="control-btn secondary" onClick={nextExercise}>
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
         </div>
       </div>

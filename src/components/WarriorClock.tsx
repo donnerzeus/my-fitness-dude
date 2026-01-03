@@ -64,7 +64,7 @@ const WarriorClock: React.FC = () => {
     <div className="warrior-clock glass-card">
       <div className="clock-header">
         <div className="header-left">
-          <Shield className="gold" size={18} />
+          <Shield className="gold" size={16} />
           <h3>Warrior Clock</h3>
         </div>
         <AnimatePresence>

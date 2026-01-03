@@ -47,31 +47,31 @@ const ProgressSummary: React.FC = () => {
   return (
     <div className="progress-summary glass-card">
       <div className="summary-header">
-        <Trophy className="gold" size={24} />
+        <Trophy className="gold" size={18} />
         <div className="header-info">
           <h2>Daily Status</h2>
           <p>{new Date().toLocaleDateString('tr-TR')}</p>
         </div>
         {!notifGranted && (
           <button className="notif-req-btn" onClick={handleRequestNotif} title="Enable Status Updates">
-            <Bell size={18} />
+            <Bell size={16} />
           </button>
         )}
         <div className="streak-badge">
-          <Flame size={16} />
+          <Flame size={14} />
           <span>{streak} DAY STREAK</span>
         </div>
       </div>
 
       <div className="stoic-pulse">
-        <Quote size={20} className="quote-icon" />
+        <Quote size={16} className="quote-icon" />
         <p>"{quote.text}"</p>
         <cite>— {quote.author}</cite>
       </div>
 
       <div className="trial-card">
         <div className="trial-header">
-          <Sword size={16} className="crimson" />
+          <Sword size={14} className="crimson" />
           <span>WEEKLY SPARTAN TRIAL</span>
         </div>
         <p className="trial-text">{currentTrial}</p>
@@ -81,9 +81,9 @@ const ProgressSummary: React.FC = () => {
         {tasks.map((task, i) => (
           <div key={i} className={`task-item ${task.done ? 'completed' : ''}`}>
             {task.done ? (
-              <CheckCircle2 size={20} className="status-icon done" />
+              <CheckCircle2 size={16} className="status-icon done" />
             ) : (
-              <Circle size={20} className="status-icon" />
+              <Circle size={16} className="status-icon" />
             )}
             <span className="task-label">{task.label}</span>
           </div>

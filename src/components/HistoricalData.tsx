@@ -24,15 +24,15 @@ const HistoricalData: React.FC = () => {
     if (!current || !previous) return null;
     const diff = current - previous;
 
-    if (diff < 0) return { icon: <TrendingDown size={14} className="text-success" />, val: diff.toFixed(1) };
-    if (diff > 0) return { icon: <TrendingUp size={14} className="text-danger" />, val: `+${diff.toFixed(1)}` };
-    return { icon: <Minus size={14} />, val: "0" };
+    if (diff < 0) return { icon: <TrendingDown size={12} className="text-success" />, val: diff.toFixed(1) };
+    if (diff > 0) return { icon: <TrendingUp size={12} className="text-danger" />, val: `+${diff.toFixed(1)}` };
+    return { icon: <Minus size={12} />, val: "0" };
   };
 
   if (history.length === 0) {
     return (
       <div className="historical-data glass-card empty-state">
-        <History size={48} className="gold opacity-20" />
+        <History size={32} className="gold opacity-20" />
         <p>No battles logged yet. Your history will appear here.</p>
       </div>
     );
@@ -41,10 +41,10 @@ const HistoricalData: React.FC = () => {
   return (
     <div className="historical-data">
       <div className="section-title">
-        <History className="gold" />
+        <History className="gold" size={18} />
         <h2>Battle Log</h2>
         <button className="export-btn" onClick={downloadBattleLog} title="Export Battle Log">
-          <FileDown size={18} />
+          <FileDown size={16} />
         </button>
       </div>
 
