@@ -10,7 +10,7 @@ export const NotificationService = {
     },
 
     async sendNotification(title: string, options?: NotificationOptions) {
-        if (Notification.permission === 'granted') {
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
             const registration = await navigator.serviceWorker.ready;
             if (registration.showNotification) {
                 // Using service worker registration for better PWA support

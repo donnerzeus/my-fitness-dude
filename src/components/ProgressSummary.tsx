@@ -25,7 +25,9 @@ const ProgressSummary: React.FC = () => {
   const currentTrial = SPARTAN_TRIALS[weekNum % SPARTAN_TRIALS.length];
   const quote = STOIC_QUOTES[new Date().getDate() % STOIC_QUOTES.length];
 
-  const [notifGranted, setNotifGranted] = useState(Notification.permission === 'granted');
+  const [notifGranted, setNotifGranted] = useState(() => {
+    return typeof Notification !== 'undefined' && Notification.permission === 'granted';
+  });
 
   const handleRequestNotif = async () => {
     const granted = await NotificationService.requestPermission();
