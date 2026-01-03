@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, LayoutDashboard, Utensils, Zap, Camera } from 'lucide-react';
 import './App.css';
 
-// Components (We will create these next)
+// Components
 import WarriorClock from './components/WarriorClock';
 import FuelLog from './components/FuelLog';
 import ArenaTimer from './components/ArenaTimer';
@@ -12,11 +12,20 @@ import Measurements from './components/Measurements';
 import MealPrep from './components/MealPrep';
 import HistoricalData from './components/HistoricalData';
 import VisualEvolution from './components/VisualEvolution';
+import { StorageService } from './services/StorageService';
+import type { DailyStats } from './services/StorageService';
 
 type Tab = 'dashboard' | 'fuel' | 'arena' | 'gallery';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [stats, setStats] = useState<DailyStats>(StorageService.getStats());
+
+  const updateStats = (updates: Partial<DailyStats>) => {
+    const newStats = { ...stats, ...updates };
+    setStats(newStats);
+    StorageService.saveStats(newStats);
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -65,7 +74,7 @@ const App: React.FC = () => {
               exit={{ opacity: 0, y: -20 }}
               className="tab-content"
             >
-              <FuelLog />
+              <FuelLog stats={stats} updateStats={updateStats} />
               <MealPrep />
             </motion.div>
           )}

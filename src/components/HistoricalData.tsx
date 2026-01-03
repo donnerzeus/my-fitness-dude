@@ -1,5 +1,5 @@
 import React from 'react';
-import { History, TrendingUp, TrendingDown, Minus, Camera, FileDown } from 'lucide-react';
+import { History, TrendingUp, TrendingDown, Minus, FileDown } from 'lucide-react';
 import { StorageService } from '../services/StorageService';
 
 const HistoricalData: React.FC = () => {
