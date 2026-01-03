@@ -82,23 +82,23 @@ const VisualEvolution: React.FC = () => {
             )}
 
             <style>{`
-                .visual-evolution { display: flex; flex-direction: column; gap: 1.25rem; }
-                .section-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+                .visual-evolution { display: flex; flex-direction: column; gap: 1rem; }
+                .section-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem; }
                 .add-photo-btn {
                     margin-left: auto; background: var(--primary-color); color: var(--bg-color);
-                    width: 36px; height: 36px; border-radius: 10px;
+                    width: 32px; height: 32px; border-radius: 8px;
                     display: flex; align-items: center; justify-content: center; cursor: pointer;
                 }
-                .empty-state { text-align: center; padding: 4rem 2rem !important; opacity: 0.6; }
-                .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-                .photo-card { padding: 0.5rem !important; overflow: hidden; }
-                .img-container { position: relative; width: 100%; aspect-ratio: 3/4; border-radius: 0.5rem; overflow: hidden; background: #000; }
+                .empty-state { text-align: center; padding: 3rem 1.5rem !important; opacity: 0.6; }
+                .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+                .photo-card { padding: 0.4rem !important; overflow: hidden; border-radius: 0.75rem !important; }
+                .img-container { position: relative; width: 100%; aspect-ratio: 1; border-radius: 0.4rem; overflow: hidden; background: #000; }
                 .img-container img { width: 100%; height: 100%; object-fit: cover; }
                 .delete-btn {
-                    position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(0,0,0,0.5);
-                    color: #ff4d4d; border: none; padding: 0.4rem; border-radius: 0.5rem; backdrop-filter: blur(4px);
+                    position: absolute; top: 0.25rem; right: 0.25rem; background: rgba(0,0,0,0.6);
+                    color: #ff4d4d; border: none; padding: 0.3rem; border-radius: 0.4rem; backdrop-filter: blur(4px);
                 }
-                .photo-meta { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem; color: var(--text-secondary); font-size: 0.7rem; font-weight: 700; }
+                .photo-meta { display: flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.25rem; color: var(--text-secondary); font-size: 0.65rem; font-weight: 700; }
             `}</style>
         </div>
     );

@@ -104,13 +104,13 @@ const HistoricalData: React.FC = () => {
                 .date-label { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); }
                 .success-dot { width: 8px; height: 8px; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 10px var(--primary-color); }
                 
-                .metrics-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-                .metric-item { display: flex; flex-direction: column; gap: 0.25rem; }
-                .m-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-                .m-val { font-size: 1rem; font-weight: 800; color: #fff; }
-                .m-val-group { display: flex; align-items: center; gap: 0.5rem; }
-                .m-diff { display: flex; align-items: center; font-size: 0.7rem; font-weight: 700; }
-                .activity-icons { display: flex; gap: 0.3rem; }
+                .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.75rem; }
+                .metric-item { display: flex; flex-direction: column; gap: 0.2rem; }
+                .m-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+                .m-val { font-size: 0.9rem; font-weight: 800; color: #fff; }
+                .m-val-group { display: flex; align-items: center; gap: 0.4rem; }
+                .m-diff { display: flex; align-items: center; font-size: 0.65rem; font-weight: 700; }
+                .activity-icons { display: flex; gap: 0.25rem; }
                 .mini-btn {
                     width: 20px; height: 20px; border-radius: 4px; border: 1px solid var(--glass-border);
                     display: flex; align-items: center; justify-content: center;

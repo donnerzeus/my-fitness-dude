@@ -70,9 +70,11 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
 
       <div className="glass-card water-card">
         <div className="water-header">
-          <div className="header-info">
-            <img src="/favicon.png" alt="" style={{ width: 18, height: 18, filter: 'hue-rotate(180deg)' }} />
-            <Droplets className="blue" size={18} style={{ marginLeft: -22 }} />
+          <div className="header-info" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ position: 'relative', width: 22, height: 22 }}>
+              <img src="/favicon.png" alt="" style={{ width: 18, height: 18, filter: 'hue-rotate(180deg)', position: 'absolute', top: 2, left: 0 }} />
+              <Droplets className="blue" size={14} style={{ position: 'absolute', bottom: 0, right: 0 }} />
+            </div>
             <h3>Hydration Status</h3>
           </div>
           <span className="water-count-text">{(waterCount * 0.5).toFixed(1)}L / 4.0L</span>
@@ -156,11 +158,11 @@ const FuelLog: React.FC<FuelLogProps> = ({ stats, updateStats }) => {
                 .status-icon { margin-left: auto; color: #10b981; }
                 .status-icon.x { color: var(--accent-color); opacity: 0.3; }
 
-                .water-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+                .water-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
                 .water-count-text { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); }
-                .hydration-tank-container { display: flex; gap: 1.5rem; align-items: center; }
+                .hydration-tank-container { display: flex; gap: 1rem; align-items: center; }
                 .tank-wall {
-                    width: 60px; height: 120px; border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 0.75rem;
+                    width: 50px; height: 100px; border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 0.75rem;
                     position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.02);
                 }
                 .water-level {

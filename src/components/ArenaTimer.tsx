@@ -316,15 +316,15 @@ const ArenaTimer: React.FC = () => {
         .lib-name { font-size: 0.9rem; font-weight: 700; color: #fff; display: block; }
         .lib-cat { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 800; }
 
-        .timer-card { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; padding: 2.5rem 1.5rem !important; }
-        .round-badge { background: rgba(178, 34, 34, 0.1); color: var(--accent-color); padding: 0.35rem 0.85rem; border-radius: 2rem; border: 1px solid rgba(178, 34, 34, 0.2); }
-        .current-exercise h3 { font-size: 1.75rem; text-align: center; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
-        .main-clock { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
+        .timer-card { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1.5rem !important; }
+        .round-badge { background: rgba(178, 34, 34, 0.1); color: var(--accent-color); padding: 0.35rem 0.85rem; border-radius: 2rem; border: 1px solid rgba(178, 34, 34, 0.2); font-size: 0.75rem; }
+        .current-exercise h3 { font-size: 1.25rem; text-align: center; color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+        .main-clock { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; }
         .progress-ring { position: absolute; width: 100%; height: 100%; transform: rotate(-90deg); }
         .ring-bg { fill: none; stroke: rgba(255, 255, 255, 0.03); stroke-width: 6; }
         .ring-progress { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
-        .time-big { font-size: 4.5rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: -5px; }
-        .sec-label { font-size: 0.9rem; letter-spacing: 0.3em; color: var(--text-secondary); font-weight: 700; }
+        .time-big { font-size: 3.5rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: -5px; }
+        .sec-label { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--text-secondary); font-weight: 700; }
 
         .ghost-tracker {
           width: 100%; display: flex; justify-content: space-between; align-items: center;

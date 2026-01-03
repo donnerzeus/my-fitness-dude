@@ -113,25 +113,25 @@ const WarriorClock: React.FC = () => {
       </div>
 
       <style>{`
-                .warrior-clock { display: flex; flex-direction: column; gap: 1.5rem; }
-                .clock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+                .warrior-clock { display: flex; flex-direction: column; gap: 1.25rem; }
+                .clock-header { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
                 .header-left { display: flex; align-items: center; gap: 0.5rem; }
                 .autophagy-badge {
                   background: rgba(178, 34, 34, 0.2); border: 1px solid var(--accent-color);
-                  color: #ff4d4d; font-size: 0.65rem; font-weight: 800; padding: 0.35rem 0.65rem;
-                  border-radius: 2rem; display: flex; align-items: center; gap: 0.3rem;
-                  letter-spacing: 0.05em; box-shadow: 0 0 15px rgba(178, 34, 34, 0.3);
+                  color: #ff4d4d; font-size: 0.6rem; font-weight: 800; padding: 0.3rem 0.6rem;
+                  border-radius: 2rem; display: flex; align-items: center; gap: 0.25rem;
+                  letter-spacing: 0.05em; box-shadow: 0 0 10px rgba(178, 34, 34, 0.3);
                 }
-                .clock-visual { position: relative; width: 200px; height: 200px; margin: 0 auto; }
+                .clock-visual { position: relative; width: 180px; height: 180px; margin: 0 auto; }
                 svg { width: 100%; height: 100%; transform: rotate(-90deg); }
                 .bg { fill: none; stroke: rgba(255, 255, 255, 0.03); stroke-width: 6; }
                 .progress { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
                 .progress.fasting { stroke: var(--primary-color); }
                 .progress.feeding { stroke: #10b981; }
                 .heat-ring { fill: none; stroke: var(--accent-color); stroke-width: 2; stroke-dasharray: 4, 2; }
-                .clock-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-                .time-remaining { display: block; font-size: 2.5rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 0.25rem; }
-                .phase-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); font-weight: 600; }
+                .clock-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
+                .time-remaining { display: block; font-size: 2rem; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 0.1rem; }
+                .phase-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); font-weight: 600; }
             `}</style>
     </div>
   );

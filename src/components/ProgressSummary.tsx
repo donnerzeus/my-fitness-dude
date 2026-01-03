@@ -91,10 +91,10 @@ const ProgressSummary: React.FC = () => {
       </div>
 
       <style>{`
-                .progress-summary { display: flex; flex-direction: column; gap: 1.25rem; }
-                .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-                .header-info h2 { font-size: 1.1rem; margin: 0; color: #fff; }
-                .header-info p { font-size: 0.75rem; color: var(--text-secondary); }
+                .progress-summary { display: flex; flex-direction: column; gap: 1rem; }
+                .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
+                .header-info h2 { font-size: 1rem; margin: 0; color: #fff; }
+                .header-info p { font-size: 0.7rem; color: var(--text-secondary); }
                 
                 .notif-req-btn {
                     margin-left: auto;
@@ -102,52 +102,52 @@ const ProgressSummary: React.FC = () => {
                     background: rgba(255, 255, 255, 0.05);
                     border: 1px solid var(--glass-border);
                     color: var(--primary-color);
-                    width: 36px;
-                    height: 36px;
-                    border-radius: 10px;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 8px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                 }
 
                 .streak-badge { 
-                    display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; 
+                    display: flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.65rem; 
                     background: rgba(212, 175, 55, 0.1); border-radius: 2rem; color: var(--primary-color);
                     border: 1px solid rgba(212, 175, 55, 0.2);
                 }
-                .streak-badge span { font-size: 0.75rem; font-weight: 800; }
+                .streak-badge span { font-size: 0.7rem; font-weight: 800; }
 
                 .stoic-pulse {
                     background: rgba(255, 255, 255, 0.02);
                     border: 1px solid var(--glass-border);
-                    padding: 1.25rem 1rem;
+                    padding: 1rem;
                     border-radius: 1rem;
                     position: relative;
                 }
-                .quote-icon { position: absolute; top: -10px; right: 10px; color: var(--primary-color); opacity: 0.2; }
-                .stoic-pulse p { font-style: italic; font-size: 0.85rem; color: #fff; margin-bottom: 0.5rem; line-height: 1.4; }
-                .stoic-pulse cite { font-size: 0.7rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+                .quote-icon { position: absolute; top: -8px; right: 8px; color: var(--primary-color); opacity: 0.2; }
+                .stoic-pulse p { font-style: italic; font-size: 0.8rem; color: #fff; margin-bottom: 0.4rem; line-height: 1.4; }
+                .stoic-pulse cite { font-size: 0.65rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 
                 .trial-card {
                     background: rgba(178, 34, 34, 0.05);
                     border: 1px dashed var(--accent-color);
-                    padding: 1rem;
+                    padding: 0.75rem 1rem;
                     border-radius: 1rem;
                 }
-                .trial-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
-                .trial-header span { font-size: 0.65rem; font-weight: 800; color: var(--accent-color); letter-spacing: 0.1em; }
-                .trial-text { font-size: 0.9rem; font-weight: 700; color: #fff; }
+                .trial-header { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
+                .trial-header span { font-size: 0.6rem; font-weight: 800; color: var(--accent-color); letter-spacing: 0.1em; }
+                .trial-text { font-size: 0.85rem; font-weight: 700; color: #fff; }
 
-                .tasks-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+                .tasks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
                 .task-item {
-                    display: flex; align-items: center; gap: 0.75rem; padding: 1rem;
-                    background: rgba(255, 255, 255, 0.03); border-radius: 1rem; border: 1px solid var(--glass-border);
+                    display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem;
+                    background: rgba(255, 255, 255, 0.03); border-radius: 0.75rem; border: 1px solid var(--glass-border);
                     transition: all 0.3s ease;
                 }
                 .task-item.completed { background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); }
-                .status-icon { color: var(--text-secondary); opacity: 0.5; }
+                .status-icon { color: var(--text-secondary); opacity: 0.5; flex-shrink: 0; }
                 .status-icon.done { color: #10b981; opacity: 1; }
-                .task-label { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+                .task-label { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); }
                 .task-item.completed .task-label { color: #10b981; }
             `}</style>
     </div>

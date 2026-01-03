@@ -4,9 +4,14 @@
   min-height: 100vh;
   padding: 1rem;
   padding-bottom: 6rem;
-  /* Space for bottom nav */
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 380px) {
+    .app-container { padding: 0.75rem; }
+    .main-header { padding: 0.5rem 0 1.5rem; }
+    .tab-content { gap: 1rem; }
 }
 
 .main-header {
@@ -99,8 +104,14 @@
   -webkit-backdrop-filter: blur(20px);
   display: flex;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   border-top: 1px solid var(--glass-border);
+}
+
+@media (max-width: 380px) {
+    .bottom-nav { padding: 0.5rem 0; }
+    .bottom-nav button { gap: 0.2rem; font-size: 0.6rem; }
+    .bottom-nav button svg { width: 20px; height: 20px; }
 }
 
 .bottom-nav button {
