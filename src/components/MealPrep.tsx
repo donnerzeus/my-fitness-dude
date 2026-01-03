@@ -2,59 +2,59 @@ import React from 'react';
 import { ShoppingBag, UtensilsCrossed, Zap } from 'lucide-react';
 
 const MEALS = [
-    {
-        type: 'Break Fast (11:30)',
-        title: 'Protein Boost',
-        description: '3-4 Haşlanmış Yumurta veya 150g Tavuk Füme + Bol Yeşillik + Çiğ Badem.',
-        tips: 'İş yerindeysen suyundan arındırılmış sebze ve yoğurt ekle.'
-    },
-    {
-        type: 'Pre-Workout (16:00)',
-        title: 'Energy Core',
-        description: '1 avuç Ceviz veya 1 ölçek Protein Tozu (Su ile).',
-        tips: 'Aç değilsen bile iç, antrenman gücünü buradan alacaksın.'
-    },
-    {
-        type: 'The Banquet (19:30)',
-        title: 'Warrior Recovery',
-        description: '300-400g Izgara Et/Tavuk + Buharda Brokoli/Kabak + Zeytinyağı.',
-        tips: 'Çok bitiksen 4 kaşık bulgur ekle, yoksa sebzeyle devam.'
-    }
+  {
+    type: 'Break Fast (11:30)',
+    title: 'Protein Boost',
+    description: '3-4 Haşlanmış Yumurta veya 150g Tavuk Füme + Bol Yeşillik + Çiğ Badem.',
+    tips: 'İş yerindeysen suyundan arındırılmış sebze ve yoğurt ekle.'
+  },
+  {
+    type: 'Pre-Workout (16:00)',
+    title: 'Energy Core',
+    description: '1 avuç Ceviz veya 1 ölçek Protein Tozu (Su ile).',
+    tips: 'Aç değilsen bile iç, antrenman gücünü buradan alacaksın.'
+  },
+  {
+    type: 'The Banquet (19:30)',
+    title: 'Warrior Recovery',
+    description: '300-400g Izgara Et/Tavuk + Buharda Brokoli/Kabak + Zeytinyağı.',
+    tips: 'Çok bitiksen 4 kaşık bulgur ekle, yoksa sebzeyle devam.'
+  }
 ];
 
 const MealPrep: React.FC = () => {
-    return (
-        <div className="meal-prep">
-            <div className="section-title">
-                <UtensilsCrossed className="title-icon gold" />
-                <h2>Warrior Nutrition</h2>
-            </div>
+  return (
+    <div className="meal-prep">
+      <div className="section-title">
+        <UtensilsCrossed className="title-icon gold" size={18} />
+        <h2>Warrior Nutrition</h2>
+      </div>
 
-            <div className="meal-list">
-                {MEALS.map((meal, i) => (
-                    <div key={i} className="meal-card glass-card">
-                        <div className="meal-badge">{meal.type}</div>
-                        <div className="meal-content">
-                            <h4>{meal.title}</h4>
-                            <p className="description">{meal.description}</p>
-                            <div className="tip-box">
-                                <Zap size={14} className="gold" />
-                                <span>{meal.tips}</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+      <div className="meal-list">
+        {MEALS.map((meal, i) => (
+          <div key={i} className="meal-card glass-card">
+            <div className="meal-badge">{meal.type}</div>
+            <div className="meal-content">
+              <h4>{meal.title}</h4>
+              <p className="description">{meal.description}</p>
+              <div className="tip-box">
+                <Zap size={12} className="gold" />
+                <span>{meal.tips}</span>
+              </div>
             </div>
+          </div>
+        ))}
+      </div>
 
-            <div className="glass-card prep-info">
-                <div className="prep-header">
-                    <ShoppingBag size={18} />
-                    <h4>Pazar Günü "Meal Prep"</h4>
-                </div>
-                <p>Hafta içi ofis tuzaklarına düşmemek için 1.5kg tavuğu bugün haşla ve kaplara böl.</p>
-            </div>
+      <div className="glass-card prep-info">
+        <div className="prep-header">
+          <ShoppingBag size={16} />
+          <h4>Pazar Günü "Meal Prep"</h4>
+        </div>
+        <p>Hafta içi ofis tuzaklarına düşmemek için 1.5kg tavuğu bugün haşla ve kaplara böl.</p>
+      </div>
 
-            <style>{`
+      <style>{`
         .meal-prep {
           display: flex;
           flex-direction: column;
@@ -120,8 +120,8 @@ const MealPrep: React.FC = () => {
           color: var(--text-secondary);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default MealPrep;

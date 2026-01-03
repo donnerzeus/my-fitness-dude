@@ -9,9 +9,29 @@
 }
 
 @media (max-width: 380px) {
-    .app-container { padding: 0.75rem; }
-    .main-header { padding: 0.5rem 0 1.5rem; }
-    .tab-content { gap: 1rem; }
+  .app-container {
+    padding: 0.75rem;
+    padding-bottom: 5rem;
+  }
+
+  .main-header {
+    padding: 0.5rem 0 1rem;
+  }
+
+  .tab-content {
+    gap: 0.75rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .logo-section h1 {
+    font-size: 1rem;
+  }
+
+  .day-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
 }
 
 .main-header {
@@ -109,9 +129,20 @@
 }
 
 @media (max-width: 380px) {
-    .bottom-nav { padding: 0.5rem 0; }
-    .bottom-nav button { gap: 0.2rem; font-size: 0.6rem; }
-    .bottom-nav button svg { width: 20px; height: 20px; }
+  .bottom-nav {
+    padding: 0.4rem 0;
+    height: 60px;
+  }
+
+  .bottom-nav button {
+    gap: 0.1rem;
+    font-size: 0.55rem;
+  }
+
+  .bottom-nav button svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
 }
 
 .bottom-nav button {
@@ -131,6 +162,6 @@
 }
 
 .bottom-nav button svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }

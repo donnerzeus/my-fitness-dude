@@ -27,7 +27,30 @@ body {
   background-attachment: fixed;
   color: var(--text-primary);
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scoping SVGs to prevent them from taking 100% width unless intended */
+svg:not(.clock-svg):not(.progress-ring):not(.water-level svg) {
+  width: auto;
+  height: auto;
+}
+
+.lucide {
+  flex-shrink: 0;
 }
 
 h1,
@@ -37,13 +60,17 @@ h3 {
 }
 
 .glass-card {
-  background: var(--glass-bg);
+  background: var(--surface-color);
+  /* Fallback for browsers without backdrop-filter support */
+  background: rgba(26, 26, 29, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: 1.5rem;
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: var(--card-shadow);
+  position: relative;
+  z-index: 1;
 }
 
 button {

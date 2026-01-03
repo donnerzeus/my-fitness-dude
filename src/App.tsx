@@ -38,7 +38,7 @@ const App: React.FC = () => {
     <div className="app-container">
       <header className="main-header">
         <div className="logo-section">
-          <Shield className="logo-icon" />
+          <Shield className="logo-icon" size={20} />
           <div className="title-stack">
             <h1>PROJECT SPARTAN</h1>
             <span className="greeting">{getGreeting()}</span>
@@ -50,13 +50,14 @@ const App: React.FC = () => {
       </header>
 
       <main className="content-area">
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false} mode="wait">
           {activeTab === 'dashboard' && (
             <motion.div
               key="dashboard"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="tab-content"
             >
               <WarriorClock />
@@ -69,9 +70,10 @@ const App: React.FC = () => {
           {activeTab === 'fuel' && (
             <motion.div
               key="fuel"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="tab-content"
             >
               <FuelLog stats={stats} updateStats={updateStats} />
@@ -82,9 +84,10 @@ const App: React.FC = () => {
           {activeTab === 'arena' && (
             <motion.div
               key="arena"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="tab-content"
             >
               <ArenaTimer />
@@ -94,9 +97,10 @@ const App: React.FC = () => {
           {activeTab === 'gallery' && (
             <motion.div
               key="gallery"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="tab-content"
             >
               <VisualEvolution />
@@ -110,28 +114,28 @@ const App: React.FC = () => {
           className={activeTab === 'dashboard' ? 'active' : ''}
           onClick={() => setActiveTab('dashboard')}
         >
-          <LayoutDashboard />
+          <LayoutDashboard size={20} />
           <span>Dashboard</span>
         </button>
         <button
           className={activeTab === 'fuel' ? 'active' : ''}
           onClick={() => setActiveTab('fuel')}
         >
-          <Utensils />
+          <Utensils size={20} />
           <span>Fuel</span>
         </button>
         <button
           className={activeTab === 'arena' ? 'active' : ''}
           onClick={() => setActiveTab('arena')}
         >
-          <Zap />
+          <Zap size={20} />
           <span>Arena</span>
         </button>
         <button
           className={activeTab === 'gallery' ? 'active' : ''}
           onClick={() => setActiveTab('gallery')}
         >
-          <Camera />
+          <Camera size={20} />
           <span>Gallery</span>
         </button>
       </nav>
